@@ -288,18 +288,32 @@ function renderContact(contact) {
   `;
 }
 
-
+/*
+  Render the array of contacts and insert them on the DOM.
+  The contacts should be rendered in the `section` with id "contacts".
+*/
 function render(contacts) {
   const element = document.querySelector("#contacts");
   element.innerHTML = contacts.map(renderContact).join("");
   loadCities(contacts);
 }
 
-
+/*
+  Filter by city. Filter the  array of contacts by the given city.
+  Return a new array containing the filtered list. 
+  Do NOT modify the original array.
+*/
 function filterByCity(city) {
   return contacts.filter((contact) => contact.address.city === city);
 }
 
+/*
+  Add an `change` event listener to the `filterOptions` select element.
+  On `change` get the value selected by the user. 
+  If the value is "0" call `render()` with the complete contacts list.
+  If the value is not "0" call `filterByCity()` passing the value selected by
+  the user. Then call `render()` with the filtered list.
+*/
 function filterHandler() {
   const select = document.querySelector("#filterOptions");
 
@@ -313,6 +327,12 @@ function filterHandler() {
   });
 }
 
+/*
+  Accepts an array of contacts.
+  Populate the select with id `filterOptions` with the list of cities.
+  Create a list of cities from the contacts array with no duplicates then
+  add an `<option>` element for each city to the select.
+*/
 function loadCities(contacts) {
   const cities = Array.from(
     new Set(contacts.map((contact) => contact.address.city)).values()
@@ -330,7 +350,12 @@ function deleteContact(id) {
   index >= 0 && contacts.splice(index, 1);
 }
 
-
+/*
+  Add a `click` event handler to the `deleteBtn` elements.
+  When clicked, get the id of the card that was clicked from the 
+  corresponding `data-id` then call `deleteContact()` and re-render 
+  the list.
+*/
 function deleteButtonHandler() {
   const contactsElement = document.querySelector("#contacts");
   contactsElement.addEventListener("click", (event) => {
@@ -341,7 +366,10 @@ function deleteButtonHandler() {
   });
 }
 
-
+/*
+  Perform all startup tasks here. Use this function to attach the 
+  required event listeners, call loadCities() then call render().
+*/
 function main() {
   filterHandler();
   deleteButtonHandler();
